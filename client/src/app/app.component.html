@@ -1,0 +1,23 @@
+<form>
+<input type="file" (change)="fileChangeEvent($event)" placeholder="Upload file..." multiple/>
+<button type="button" (click)="upload()">Upload</button>
+</form>
+
+<button (click)="retrieveUsers()">Retrieve Users</button>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of userDetails">
+            <td>{{user.name}}</td>
+            <td>{{user.age}}</td>
+            <td><img src="http://localhost:3000/uploads/{{user.image}}" alt="Profile Pic" /></td>
+        </tr>
+    </tbody>
+</table>
