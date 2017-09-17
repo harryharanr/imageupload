@@ -6,7 +6,9 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
   name:{type:String},
   age:{type:Number},
-  image : {type:String }
+  image : [{
+    imageName : {type:String}
+  }]
 },{collection:'user'});
 
 module.exports = mongoose.model('user',userSchema)

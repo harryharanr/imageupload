@@ -51,6 +51,7 @@ var storage = multer.diskStorage({
   // rename file
   filename: function (req, file, cb) {
     //console.log("Name is --> "+req.body.Name);
+    //console.log(file.length);
     cb(null, req.body.Name+req.body.Age+path.extname(file.originalname));
   }
 });
@@ -62,14 +63,27 @@ var upload = multer({ storage: storage });
 
 app.post("/upload", upload.array("uploads[]", 12), function (req, res) {
   
-  console.log(req.body);
-  console.log(req.files[0].filename)
+//   console.log(req.body);
+//   console.log(req.files[0].filename);
+//   console.log(req.files.length)
   
+  let images = [];
+
+  for(let i=0;i<req.files.length;i++){
+    images.push({
+        imageName:req.files[i].filename
+    })
+  }
+
+  //console.log(images);
+
   let user = new User({
       name : req.body.Name,
       age : req.body.Age,
-      image : req.files[0].filename
+      image : images
   });
+
+ console.log(user);
 
   user.save((err)=>{
       if(err){

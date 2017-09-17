@@ -11,9 +11,9 @@ import { ImageUploadService } from './image-upload.service';
 export class AppComponent implements OnInit {
   
    filesToUpload: Array<File> = [];
-   product = {
+   product = [{
      photo:''
-   };
+   }];
 
    userDetails;
 
@@ -34,14 +34,19 @@ export class AppComponent implements OnInit {
     const formData: any = new FormData();
     const files: Array<File> = this.filesToUpload;
     let age = new Date();
-    formData.append("Name","Hariharan");
-    formData.append("Age",Number(age));
-    formData.append("uploads[]", files[0], files[0]['name']);
+    console.log(files);
+    // formData.append("Name","Hariharan");
+    // formData.append("Age",Math.floor((Math.random() * 100) + 1));
+    
+
+    for(let i = 0;i<files.length;i++){
+      formData.append("Name",files[i].name);
+      formData.append("uploads[]", files[i], files[i]['name'])
+    }
+   // formData.append("uploads[]", files[0], files[0]['name']);
     
     console.log(formData);
-    // this.http.post('http://localhost:3000/upload', formData)
-    //   .map(files => files.json())
-    //   .subscribe(files => console.log('files', files))
+   
 
     this.imageUploadService.uploadImage(formData).subscribe(data => {
       console.log(data);
@@ -50,7 +55,13 @@ export class AppComponent implements OnInit {
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = <Array<File>>fileInput.target.files;
-    this.product.photo = fileInput.target.files[0]['name'];
+    console.log(fileInput);
+    console.log(fileInput.target.files.length);
+
+    // for(let i=0;i<fileInput.target.files.length;i++){
+    //   this.product[i].photo
+    // }
+    // this.product.photo = fileInput.target.files[0]['name'];
   }
 
   retrieveUsers(){
@@ -59,8 +70,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // getImage(imagePath){
-  //   return this.imageUploadService.getImage(imagePath);
-  // }
+
 
 }
